@@ -1,0 +1,30 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-fondoproject-dev-6519c-authRole",
+      "UnauthRoleArn": "arn:aws:iam::442042542980:role/amplify-fondoproject-dev-6519c-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::442042542980:role/amplify-fondoproject-dev-6519c-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-fondoproject-dev-6519c-deployment",
+      "UnauthRoleName": "amplify-fondoproject-dev-6519c-unauthRole",
+      "StackName": "amplify-fondoproject-dev-6519c",
+      "StackId": "arn:aws:cloudformation:us-east-2:442042542980:stack/amplify-fondoproject-dev-6519c/94e1c0a0-61c1-11ef-9958-020123f64ba7",
+      "AmplifyAppId": "d3qcr2awhnj58x",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-fondoproject-dev-6519c-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
+    },
+    "categories": {
+      "function": {
+        "fondoLambda": {
+          "deploymentBucketName": "amplify-fondoproject-dev-6519c-deployment",
+          "s3Key": "amplify-builds/fondoLambda-51482f717236612b596c-build.zip"
+        }
+      },
+      "auth": {
+        "fondoproject": {}
+      },
+      "api": {
+        "fondosAPI": {}
+      }
+    }
+  }
+}
