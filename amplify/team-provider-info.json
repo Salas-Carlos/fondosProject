@@ -13,14 +13,14 @@
       "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-fondoproject-dev-6519c-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
+      "auth": {
+        "fondoproject": {}
+      },
       "function": {
         "fondoLambda": {
           "deploymentBucketName": "amplify-fondoproject-dev-6519c-deployment",
-          "s3Key": "amplify-builds/fondoLambda-51482f717236612b596c-build.zip"
+          "s3Key": "amplify-builds/fondoLambda-3879623275786e327039-build.zip"
         }
-      },
-      "auth": {
-        "fondoproject": {}
       },
       "api": {
         "fondosAPI": {}
