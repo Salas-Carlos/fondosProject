@@ -44,6 +44,17 @@
   "function": {
     "fondoLambda": {
       "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "fondosDB"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
@@ -64,6 +75,12 @@
           "resourceName": "fondoLambda"
         }
       ]
+    }
+  },
+  "storage": {
+    "fondosDB": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
     }
   }
 }

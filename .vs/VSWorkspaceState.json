@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\amplify",
+    "\\amplify\\backend",
+    "\\amplify\\backend\\function",
+    "\\amplify\\backend\\function\\fondoLambda",
+    "\\amplify\\backend\\function\\fondoLambda\\src",
+    "\\amplify\\backend\\function\\fondoLambda\\src\\Application",
+    "\\amplify\\backend\\function\\fondoLambda\\src\\Application\\Services",
+    "\\amplify\\backend\\function\\fondoLambda\\src\\Domain",
+    "\\amplify\\backend\\function\\fondoLambda\\src\\Infrastructure",
+    "\\amplify\\backend\\function\\fondoLambda\\src\\Infrastructure\\Repositories"
+  ],
+  "SelectedNode": "\\amplify\\backend\\function\\fondoLambda\\src\\Infrastructure\\Repositories\\DynamoDbRepository.cs",
+  "PreviewInSolutionExplorer": false
+}

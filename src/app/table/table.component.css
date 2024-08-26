@@ -1,0 +1,16 @@
+.table-container {
+  margin: 20px;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+button {
+  margin-right: 10px;
+}
+
+.existing-element {
+  background-color: #e0f7fa;
+  /* Color de fondo para resaltar */
+}

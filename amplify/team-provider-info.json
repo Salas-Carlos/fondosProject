@@ -19,11 +19,14 @@
       "function": {
         "fondoLambda": {
           "deploymentBucketName": "amplify-fondoproject-dev-6519c-deployment",
-          "s3Key": "amplify-builds/fondoLambda-3879623275786e327039-build.zip"
+          "s3Key": "amplify-builds/fondoLambda-7047486e4e686c42332b-build.zip"
         }
       },
       "api": {
         "fondosAPI": {}
+      },
+      "storage": {
+        "fondosDB": {}
       }
     }
   }

@@ -1,0 +1,28 @@
+<div class="table-container">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Column Definitions -->
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef> Select </th>
+      <td mat-cell *matCellDef="let element">
+        <input type="radio" name="selection" (change)="onSelect(element)">
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'existing-element': isExisting(row)}">
+    </tr>
+  </table>
+
+  <div class="buttons">
+    <button mat-raised-button [color]="selectedElement && isExisting(selectedElement) ? 'warn' : 'primary'"
+      (click)="handleButtonClick()">
+      {{ getButtonLabel() }}
+    </button>
+  </div>
+</div>
