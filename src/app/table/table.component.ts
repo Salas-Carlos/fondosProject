@@ -1,12 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { get } from '@aws-amplify/api';
-import { Component } from '@angular/core';
+import { get, post } from '@aws-amplify/api';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 
-interface Element {
+interface Fondo {
   name: string;
+  amount: number;
+  id: string;
 }
+
+interface Client {
+  amountClient: number;
+  id: string;
+  funds: string[];
+}
+interface Transaction {
+
+  amount: number;
+
+}
+
+
 
 @Component({
   selector: 'app-table',
@@ -16,15 +31,17 @@ interface Element {
   standalone: true
 })
 export class TableComponent {
-  displayedColumns: string[] = ['select', 'name'];
-  dataSource: Element[] = [];
-  existingElements: string[] = [];
-  selectedElement: Element | null = null;
-  response: any;
-  async fetchData() {
-    const apiName = 'tuApiNombre'; // Nombre del API configurado en Amplify
-    const path = '/ruta-de-tu-funcion'; // Ruta para acceder a la función Lambda
 
+  @Input() dataClient: Client = { amountClient: 0, id: '', funds: [] };
+
+  @Output() dataClientChange = new EventEmitter<Client>();
+
+  displayedColumns: string[] = ['select', 'name', 'amount'];
+  dataSource: Fondo[] = [];
+
+  selectedElement: Fondo = { name: '', amount: 0, id: '' };
+
+  async fetchData() {
     try {
       const restOperation = get({
         apiName: 'fondosAPI',
@@ -32,20 +49,18 @@ export class TableComponent {
 
       });
       const { body } = await restOperation.response;
-      this.response = await body.json();
-      this.dataSource = this.response;
+      this.dataSource = await body.json() as unknown as Fondo[];
+
     } catch (error) {
       console.error('Error al hacer la solicitud GET:', error);
     }
   }
 
   ngOnInit() {
-
-
     this.fetchData();
   }
 
-  onSelect(element: Element) {
+  onSelect(element: Fondo) {
     this.selectedElement = element;
   }
 
@@ -66,17 +81,53 @@ export class TableComponent {
     }
   }
 
-  addBackground() {
-    console.log('Añadiendo fondo al elemento:', this.selectedElement);
-    // Aquí puedes agregar la lógica para añadir el fondo al elemento seleccionado
+  async addBackground() {
+
+    if (this.dataClient.amountClient >= this.selectedElement.amount) {
+      const restOperation = post({
+        apiName: 'fondosAPI', path: '/transactions', options: {
+          body: {
+            PK: 'TRANSACTION',
+            amount: -1 * this.selectedElement.amount,
+            clientId: this.dataClient.id,
+            fondoId: this.selectedElement.id
+          }
+        }
+      })
+
+      const { body, statusCode } = await restOperation.response;
+      if (statusCode === 201) {
+        this.dataClient.funds.push(this.selectedElement.id);
+        const response = await body.json() as unknown as Transaction;
+        this.dataClient.amountClient += response.amount;
+        this.dataClientChange.emit(this.dataClient);
+      }
+
+    }
   }
 
-  removeBackground() {
-    console.log('Quitando fondo del elemento:', this.selectedElement);
-    // Aquí puedes agregar la lógica para quitar el fondo del elemento seleccionado
+  async removeBackground() {
+
+    const restOperation = post({
+      apiName: 'fondosAPI', path: '/transactions', options: {
+        body: {
+          PK: 'TRANSACTION',
+          amount: this.selectedElement.amount,
+          clientId: this.dataClient.id,
+          fondoId: this.selectedElement.id
+        }
+      }
+    })
+    const { body, statusCode } = await restOperation.response;
+    if (statusCode === 201) {
+      this.dataClient.funds = this.dataClient.funds.filter((name) => name !== this.selectedElement.id);
+      const response = await body.json() as unknown as Transaction;
+      this.dataClient.amountClient += response.amount;
+      this.dataClientChange.emit(this.dataClient);
+    }
   }
 
-  isExisting(element: Element): boolean {
-    return this.existingElements.includes(element.name);
+  isExisting(element: Fondo): boolean {
+    return this.dataClient.funds.includes(element.id);
   }
 }

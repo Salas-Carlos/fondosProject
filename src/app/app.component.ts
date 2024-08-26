@@ -14,12 +14,8 @@ import { TableComponent } from './table/table.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'fondoproject';
   dataClient: any;
   async fetchData() {
-    const apiName = 'tuApiNombre'; // Nombre del API configurado en Amplify
-    const path = '/ruta-de-tu-funcion'; // Ruta para acceder a la función Lambda
-
     try {
       const restOperation = get({
         apiName: 'fondosAPI',
@@ -27,16 +23,17 @@ export class AppComponent {
 
       });
       const { body } = await restOperation.response;
-      const response = await body.json();
-      this.dataClient = response
+      this.dataClient = await body.json();
+
     } catch (error) {
       console.error('Error al hacer la solicitud GET:', error);
     }
   }
-
+  onDataClientChange(updatedClient: any) {
+    // Actualiza la propiedad client con los nuevos valores
+    this.dataClient = updatedClient;
+  }
   ngOnInit() {
-
-
     this.fetchData();
   }
 }

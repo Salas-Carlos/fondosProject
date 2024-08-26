@@ -44,10 +44,13 @@ public class DynamoDbRepository<T> where T : class
 
     }
 
-    public async Task AddAsync(T item)
+    public async Task<T> AddAsync(T item)
     {
+
+       Console.WriteLine("item: ", item.ToString());
         var document = Document.FromJson(JsonConvert.SerializeObject(item));
-        await _table.PutItemAsync(document);
+        var result =  await _table.PutItemAsync(document);
+        return item;
     }
 
     public async Task UpdateAsync(T item)

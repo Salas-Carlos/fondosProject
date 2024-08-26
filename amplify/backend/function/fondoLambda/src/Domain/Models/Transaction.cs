@@ -1,4 +1,4 @@
-
+using Domain.DTO;
 
 namespace Domain.Models
 {
@@ -9,5 +9,20 @@ namespace Domain.Models
     public string id { get; set; }
     public decimal amount { get; set; }
     public string clientId {get; set;}
+    public string fondoId {get; set;}
+
+    public Transaction(TransactionDTO dto)
+    {
+        PK = dto.PK;
+        amount = dto.amount;
+        clientId = dto.clientId;
+        fondoId = dto.fondoId;
+    }
+    public Transaction() { }
+
+    public override string ToString()
+    {
+        return $"PK: {PK}, SK: {SK}, id: {id}, amount: {amount}, clientId: {clientId}, fondoId: {fondoId}";
+    }
   }
 }

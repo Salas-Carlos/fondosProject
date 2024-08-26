@@ -14,7 +14,7 @@
     <div *ngIf="dataClient">
       <p>{{dataClient.name}}</p>
       <p>Monto: {{dataClient.amountClient | currency:'USD':true}}</p>
-      <app-table></app-table>
+      <app-table [dataClient]="dataClient" (dataClientChange)="onDataClientChange($event)"></app-table>
     </div>
   </div>
 </main>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.Services;
 using Infrastructure.Repositories;
 using Domain.Models;
+using Domain.DTO;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Newtonsoft.Json;
@@ -125,18 +126,14 @@ namespace fondoLambda
                     }
                 }
                 break;
-
-                   /*  context.Logger.LogLine($"Get Request: {request.Path}\n");
-                    response.StatusCode = (int)HttpStatusCode.OK;
-                    response.Body = "{ \"message\": \"Hello AWS Serverless\" }";
-                    response.Headers["Content-Type"] = "application/json";
-                    break; */
                 case "POST":
                 if (request.Path == "/clients")
                 {
                     var client = JsonConvert.DeserializeObject<Client>(request.Body);
                     await _clientService.AddClientAsync(client);
                     response.StatusCode = (int)HttpStatusCode.Created;
+
+
                 }
                 else if (request.Path == "/fondos")
                 {
@@ -146,9 +143,10 @@ namespace fondoLambda
                 }
                 else if (request.Path == "/transactions")
                 {
-                    var transaction = JsonConvert.DeserializeObject<Transaction>(request.Body);
-                    await _transactionService.AddTransactionAsync(transaction);
+                    var transaction = JsonConvert.DeserializeObject<TransactionDTO>(request.Body);
+                    var result =  await _transactionService.AddTransactionAsync(transaction);
                     response.StatusCode = (int)HttpStatusCode.Created;
+                    response.Body = JsonConvert.SerializeObject(result);
                 }
                 break;
 

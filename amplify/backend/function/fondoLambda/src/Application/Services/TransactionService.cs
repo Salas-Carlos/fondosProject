@@ -1,7 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Models;
+using Domain.DTO;
 using Infrastructure.Repositories;
+using System;
+using System.Linq;
+
 
 namespace Application.Services
 {
@@ -19,16 +23,29 @@ namespace Application.Services
     public Task<Transaction> GetTransactionAsync(string id) => _repository.GetAsync("TRANSACTION", $"id#{id}");
     public Task<IEnumerable<Transaction>> GetAllTransactionsAsync() => _repository.GetAllAsync("TRANSACTION", "id#");
 
-    public async Task AddTransactionAsync(Transaction transaction)
+    public async Task<Transaction> AddTransactionAsync(TransactionDTO transactionDTO)
     {
-        var client = await _clientService.GetClientAsync(transaction.clientId);
+        var client = await _clientService.GetClientAsync(transactionDTO.clientId);
         if (client != null)
         {
-            client.amountClient += transaction.amount;
+            client.amountClient += transactionDTO.amount;
+            if(transactionDTO.amount<0){
+              client.funds.Add(transactionDTO.fondoId);
+            }else{
+             IEnumerable<string> filteredFunds = client.funds.Where(fund=> fund != transactionDTO.fondoId);
+             client.funds = filteredFunds.ToList();
+            }
+
             await _clientService.UpdateClientAsync(client);
         }
+        Console.WriteLine("transactionDTO: ", transactionDTO.ToString());
+        var transaction = new Transaction(transactionDTO);
+        var id = Guid.NewGuid().ToString();
+        transaction.id =id;
+        transaction.SK = $"id#{id}";
+        Console.WriteLine("transaction: ", transaction.ToString());
+        return await _repository.AddAsync(transaction);
 
-        await _repository.AddAsync(transaction);
     }
 
     public Task UpdateTransactionAsync(Transaction transaction) => _repository.UpdateAsync(transaction);

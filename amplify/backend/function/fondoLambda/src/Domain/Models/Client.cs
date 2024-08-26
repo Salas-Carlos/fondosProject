@@ -10,7 +10,7 @@ namespace Domain.Models
     public string id { get; set; }
     public string name { get; set; }
     public decimal amountClient { get; set; }
-    public List<string> Funds { get; set; }
+    public List<string> funds { get; set; }
 
   }
 }
